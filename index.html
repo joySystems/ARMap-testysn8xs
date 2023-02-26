@@ -6,6 +6,7 @@
         <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
         <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
         <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+        <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.0.5/aframe/build/aframe-ar.js"></script>
         <title>AR erevan</title>
     </head>
 
@@ -24,16 +25,21 @@
 var places = {
   "Place 1": {
     "latitude": 40.221128, 
-    "longitude": 44.486834
+    "longitude": 44.486834,
+    "placed": false
   },
   "Place 2": {
     "latitude": 40.219680, 
-    "longitude": 44.487404
+    "longitude": 44.487404,
+    "placed": false
   },
+  
   "Place 3": {
     "latitude": 40.218744, 
-    "longitude": 44.488541
-  }
+    "longitude": 44.488541,
+    "placed": false
+  },
+  
 };
 
 function getDistance(lat1, lon1, lat2, lon2) {
@@ -54,17 +60,28 @@ function deg2rad(deg) {
 }
 
 
-for (var place in places) {
+var watchId = navigator.geolocation.watchPosition(function(position) {
+  var userLatitude = position.coords.latitude;
+  var userLongitude = position.coords.longitude;
+
+  for (var place in places) {
   if (getDistance(
     userLatitude, userLongitude, places[place].latitude, places[place].longitude
-  ) <= 0.2) { // If user is within 500 meters of Geo point
+  ) <= 0.2 && places[place].placed == false) { // If user is within 500 meters of Geo point
     var model = document.createElement("a-entity");
     model.setAttribute("gltf-model", "url(assets/Astronaut.glb)");
     model.setAttribute("gps-entity-place", `latitude: ${places[place].latitude}; longitude: ${places[place].longitude};`);
     model.setAttribute("scale", "0.5 0.5 0.5");
     scene.appendChild(model);
+    places[place].placed = true;
+
   }
 }
+
+
+  
+});
+
 
 
 
