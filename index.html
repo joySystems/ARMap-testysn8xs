@@ -43,7 +43,7 @@ var places = {
 };
 
 var userLatitude;
-  var userLongitude;
+var userLongitude;
 
 function getDistance(lat1, lon1, lat2, lon2) {
   var R = 6371; // Radius of the earth in km
@@ -64,13 +64,16 @@ function deg2rad(deg) {
 
 
 var watchId = navigator.geolocation.watchPosition(function(position) {
- userLatitude = position.coords.latitude;
-  userLongitude = position.coords.longitude;
+
+    console.log(position.coords.latitude);
+    console.log(userLatitude);
+    userLatitude = position.coords.latitude;
+    userLongitude = position.coords.longitude;
 
   for (var place in places) {
   if (getDistance(
     userLatitude, userLongitude, places[place].latitude, places[place].longitude
-  ) <= 0.2 && places[place].placed == false) { // If user is within 500 meters of Geo point
+  ) <= 1.2 && places[place].placed == false) { // If user is within 500 meters of Geo point
     var model = document.createElement("a-entity");
     model.setAttribute("gltf-model", "url(assets/Astronaut.glb)");
     model.setAttribute("gps-entity-place", `latitude: ${places[place].latitude}; longitude: ${places[place].longitude};`);
