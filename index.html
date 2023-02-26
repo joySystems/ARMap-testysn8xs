@@ -12,6 +12,7 @@
 
     <body style="margin: 0; overflow: hidden;">
         <a-scene
+        id="scene"
             embedded
             loading-screen="enabled: true;"
             arjs="sourceType: webcam; debugUIEnabled: true;"
@@ -62,6 +63,7 @@ function deg2rad(deg) {
   return deg * (Math.PI / 180);
 }
 
+var scene = document.getElementById('scene');
 
 var watchId = navigator.geolocation.watchPosition(function(position) {
 
