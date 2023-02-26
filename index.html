@@ -42,6 +42,9 @@ var places = {
   
 };
 
+var userLatitude;
+  var userLongitude;
+
 function getDistance(lat1, lon1, lat2, lon2) {
   var R = 6371; // Radius of the earth in km
   var dLat = deg2rad(lat2 - lat1); // deg2rad below
@@ -61,8 +64,8 @@ function deg2rad(deg) {
 
 
 var watchId = navigator.geolocation.watchPosition(function(position) {
-  var userLatitude = position.coords.latitude;
-  var userLongitude = position.coords.longitude;
+ userLatitude = position.coords.latitude;
+  userLongitude = position.coords.longitude;
 
   for (var place in places) {
   if (getDistance(
